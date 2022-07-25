@@ -1,9 +1,13 @@
 import React from 'react';
 import AppLoading from 'expo-app-loading';
-import { useFonts, DMSans_400Regular } from '@expo-google-fonts/dm-sans';
+import { StatusBar } from 'expo-status-bar';
 import { DMSerifDisplay_400Regular } from '@expo-google-fonts/dm-serif-display';
-import { ThemeProvider } from 'styled-components/native'
+import { useFonts, DMSans_400Regular } from '@expo-google-fonts/dm-sans';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ThemeProvider } from 'styled-components/native';
 
+import { AuthProvide } from '@hooks/auth';
+import { Routes } from './src/routes';
 import theme from './src/theme';
 
 export default function App() {
@@ -12,13 +16,17 @@ export default function App() {
     DMSerifDisplay_400Regular
   });
 
-  if(!fontsLoaded){
-    return <AppLoading/>
-  }
+  if (!fontsLoaded)
+    return <AppLoading />
 
   return (
-    <ThemeProvider theme={theme}>
-
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider theme={theme}>
+        <StatusBar style='light' translucent backgroundColor='transparent' />
+        <AuthProvide>
+          <Routes />
+        </AuthProvide>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
